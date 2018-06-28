@@ -1,0 +1,79 @@
+{>"layouts/master" /}
+{<body}
+    <div class="panel-body">
+        <table class="table table-condensed table-striped">
+            <tr>
+                <td>First Name</td><td><input id="firstName" type="text" value="{buyer.firstName}"/></td>
+            </tr>
+            <tr>
+                <td>Last Name</td><td><input id="lastName" type="text" value="{buyer.lastName}"/></td>
+            </tr>
+            <tr>
+                <td>Phone</td><td><input id="phone" type="text" value="{buyer.phone}"/></td>
+            </tr>
+            <tr>
+                <td>Address Line1</td><td><input id="line1" type="text" value="{buyer.shippingAddress.line1}"/></td>
+            </tr>
+            <tr>
+                <td>Address Line2</td><td><input id="line2" type="text" value="{buyer.shippingAddress.line2}"/></td>
+            </tr>
+            <tr>
+                <td>City</td><td><input id="city" type="text" value="{buyer.shippingAddress.city}"/></td>
+            </tr>
+            <tr>
+                <td>State</td><td><input id="state" type="text" value="{buyer.shippingAddress.state}"/></td>
+            </tr>
+            <tr>
+                <td>ZIP</td><td><input id="zip" type="text" value="{buyer.shippingAddress.zip}"/></td>
+            </tr>
+            <tr>
+                <td>Country</td><td><input id="country" type="text" value="{buyer.shippingAddress.country}"/></td>
+            </tr>
+
+        </table>
+        <div id="paypal-button"></div>
+    </div>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script>
+      paypal.Button.render({
+        env: 'sandbox',
+         commit: false,
+        payment: function () {
+            var data = {
+                "firstName":$('#firstName').val(),
+                "lastName":$('#lastName').val(),
+                "phone":$('#phone').val(),
+                "line1":$('#line1').val(),
+                "line2":$('#line2').val(),
+                "state":$('#state').val(),
+                "zip":$('#zip').val(),
+                "city":$('#city').val(),
+                "country":$('#country').val()
+            };
+            return paypal.request({
+				    method: 'post',
+				    url: '/createPayments',
+				    json: data
+				})
+                .then(function(res) {
+                    console.log(res);
+                	return res.id;
+                });
+        },
+         onAuthorize: function(data, actions) {
+              return actions.request.post('/executePayments', {
+                paymentID: data.paymentID,
+                payerID:   data.payerID
+              })
+                .then(function(res) {
+                    if(res.id){
+                    window.location.href='/successfulPayment/?transactionId='+res.id;
+                    }else{
+                    window.alert('something wrong, check console');
+                    console.log(res);
+                    }
+                });
+            }
+      }, '#paypal-button');
+      </script>
+{/body}

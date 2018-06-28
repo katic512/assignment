@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{title}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/app.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+  <body>
+    <header>
+       <div class="panel panel-primary">
+            <div class="panel-heading panel-primary"><h2 class="text-center">ABC store</h2></div>
+      </div>
+    </header>
+     {+body /}
+  </body>
+<script src="/javascripts/jquery-3.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+</html>

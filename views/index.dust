@@ -1,0 +1,26 @@
+{>"layouts/master" /}
+ {<body}
+    <div class="panel-body">
+        <div>
+            <form action="/userInfo">
+              	<table  class="table ">
+              	    <th>
+              	        <tr  class="info">
+              	            <td>Number</td>
+              	            <td>Items</td>
+              	            <td>Price</td>
+              	        </tr>
+              	    </th>
+                <tr>
+                    <td >1</td>
+                    <td ><img src="images/bat.jpg" /></td>
+                    <td >10 USD</td>
+                </tr>
+              	<table>
+              	</form>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-info">Proceed to checkout</button>
+            </div>
+    </div>
+  {/body}

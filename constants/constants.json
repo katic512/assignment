@@ -1,0 +1,84 @@
+{
+  "buyer":{
+    "email":"ssn.karthick@gmail.com",
+    "password":"achilles848",
+    "firstName":"Karthick",
+    "lastName":"Narasimhan",
+    "phone":"4354534324",
+    "shippingAddress":{
+      "line1":"Door no.7 1st floor",
+      "line2":"lincon street",
+      "city":"New York",
+      "state":"NY",
+      "zip":"10022",
+      "country":"US"
+    }
+  },
+  "checkoutDetails" : {
+    "clientId" :"AXNPr9sOcTzOQuGOiXa_VlotN-ygoRtIuYn7xXdtPE0InnOVUR0_WpyyJ7NNUc1E-jKWPYh9Az1V3xJq",
+    "secretPhrase":"EA-DSckTaO1WTYfvE4gM_8M8ydmggnRi1Lp-nnPTHBfhk7dUwrNFYJKl7c_NteiSqVMj8xW8lWj6cAn5",
+    "getAccessTokenUrl":"https://api.sandbox.paypal.com/v1/oauth2/token",
+    "createPaymentUrl":"https://api.sandbox.paypal.com/v1/payments/payment",
+    "executePaymentUrl":"https://api.sandbox.paypal.com/v1/payments/payment/{payment_id}/execute/",
+    "getPaymentDetailsUrl":"https://api.sandbox.paypal.com/v1/payments/payment/{payment_id}",
+    "cancelUrl":"http://localhost:3000/cancel-url",
+    "successUrl":"http://localhost:3000/cancel-url",
+    "BN_CODE":"PP-DemoPortal-EC-JSV4-python-REST"
+
+  },
+  "createPaymentReqBody":{
+    "intent": "sale",
+    "payer": {
+      "payment_method": "paypal"
+    },
+    "transactions": [
+      {
+        "amount": {
+          "total": "10.00",
+          "currency": "USD",
+          "details": {
+            "subtotal": "9.00",
+            "tax": "1.00",
+            "shipping": "0.00",
+            "handling_fee": "0.00",
+            "shipping_discount": "0.00",
+            "insurance": "0.00"
+          }
+        },
+        "description": "This is the payment transaction description.",
+        "custom": "SOME_CUSTOM_MESSAGING",
+        "invoice_number": "sample_",
+
+        "item_list": {
+          "items": [
+            {
+              "name": "BAT",
+              "description": "MRF bat",
+              "quantity": "1",
+              "price": "9",
+              "tax": "1.00",
+              "sku": "0",
+              "currency": "USD"
+            }
+          ],
+          "shipping_address": {
+            "recipient_name": "",
+            "line1": "",
+            "line2": "",
+            "city": "",
+            "country_code": "",
+            "postal_code": "",
+            "phone": "",
+            "state": ""
+          }
+        }
+      }
+    ],
+    "note_to_payer": "Contact us for any questions on your order.",
+    "redirect_urls": {
+      "return_url": "",
+      "cancel_url": ""
+    }
+  }
+
+}
