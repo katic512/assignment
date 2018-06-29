@@ -10,11 +10,13 @@ var createPaymentReqBody =require('../constants/constants.json').createPaymentRe
 var items = require('../constants/constants.json').items;
 var request = require('request');
 var util = require('util');
+
+// return buyer name and address from json file
 checkoutHelper.getBuyerInfo = function getBuyerInfo(){
     return buyer;
 };
 
-
+// make create payment of paypal express check out
 checkoutHelper.createPayments = function createPayments(req, res){
 
     getAccessToken(function(err, accessTokenRes, accessTokenbody){
@@ -26,6 +28,7 @@ checkoutHelper.createPayments = function createPayments(req, res){
         var accessToken = JSON.parse(accessTokenbody).access_token;
         var reqBody = createPaymentReqBody;
         var data = req.body;
+        //set the buyer name and address for shipping from client
         reqBody.transactions[0].item_list.shipping_address.recipient_name= data.firstName+" "+data.lastName;
         reqBody.transactions[0].item_list.shipping_address.line1= data.line1;
         reqBody.transactions[0].item_list.shipping_address.line2= data.line2;
@@ -64,6 +67,7 @@ checkoutHelper.createPayments = function createPayments(req, res){
         });
     });
 };
+// make execute payment of paypal express check out
 checkoutHelper.executePayments = function executePayments(req, res){
     getAccessToken(function(err, accessTokenRes, accessTokenbody){
         console.log(err);
@@ -102,15 +106,16 @@ checkoutHelper.executePayments = function executePayments(req, res){
         });
     });
 };
-
+//for loading home page which has items information
 checkoutHelper.getItemsInfo = function getItems(req, res){
     console.log('starting get items info...');
     res.render('index', {'items':items});
 };
-
+// for rest api authentication get access token
 function getAccessToken(callback){
 
     console.log('get access token starting .....');
+    //client id and secret id are got from sandbox after creating a buyer account
     var token  = checkoutDetails.clientId+":"+checkoutDetails.secretPhrase,
         encodedKey = new Buffer(token).toString('base64');
 
