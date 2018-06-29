@@ -5,5 +5,6 @@
             <h3>Thank you for shopping with us, Please save transaction id for future reference</h3>
             <h2>Transaction id:{transactionId}</h2>
         </div>
+        <a href="/">Home page</a>
     </div>
 {/body}

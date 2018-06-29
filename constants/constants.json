@@ -34,11 +34,11 @@
     "transactions": [
       {
         "amount": {
-          "total": "10.00",
+          "total": "15.00",
           "currency": "USD",
           "details": {
-            "subtotal": "9.00",
-            "tax": "1.00",
+            "subtotal": "13.00",
+            "tax": "2.00",
             "shipping": "0.00",
             "handling_fee": "0.00",
             "shipping_discount": "0.00",
@@ -50,12 +50,21 @@
         "invoice_number": "sample_",
 
         "item_list": {
-          "items": [
+          "items":[
             {
               "name": "BAT",
               "description": "MRF bat",
               "quantity": "1",
               "price": "9",
+              "tax": "1.00",
+              "sku": "0",
+              "currency": "USD"
+            },
+            {
+              "name": "BALL",
+              "description": "SG Test",
+              "quantity": "1",
+              "price": "4",
               "tax": "1.00",
               "sku": "0",
               "currency": "USD"
@@ -79,6 +88,26 @@
       "return_url": "",
       "cancel_url": ""
     }
-  }
+  },
+  "items":[
+    {
+      "name": "BAT",
+      "description": "MRF bat",
+      "quantity": "1",
+      "price": "9",
+      "tax": "1.00",
+      "sku": "0",
+      "currency": "USD"
+    },
+    {
+      "name": "BALL",
+      "description": "SG Test",
+      "quantity": "1",
+      "price": "4",
+      "tax": "1.00",
+      "sku": "0",
+      "currency": "USD"
+    }
+  ]
 
 }

@@ -2,20 +2,29 @@
  {<body}
     <div class="panel-body">
         <div>
-            <form action="/userInfo">
+            <form action="/userInfo" method="post">
               	<table  class="table ">
               	    <th>
               	        <tr  class="info">
               	            <td>Number</td>
-              	            <td>Items</td>
+              	            <td>Item</td>
+              	            <td>Quantity</td>
               	            <td>Price</td>
+              	            <td>Tax</td>
+              	            <td>Currency</td>
               	        </tr>
               	    </th>
+              	{#items}
                 <tr>
-                    <td >1</td>
-                    <td ><img src="images/bat.jpg" /></td>
-                    <td >10 USD</td>
+                    <td >{$idx}</td>
+                    <td >{.name}</td>
+                    <td >{.quantity}</td>
+                    <td >{.price}</td>
+                    <td >{.tax}</td>
+                    <td >{.currency}</td>
+                    <input
                 </tr>
+                {/items}
               	<table>
               	</form>
             </div>

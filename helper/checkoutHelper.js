@@ -7,19 +7,22 @@ var checkoutHelper = {};
 var buyer = require('../constants/constants.json').buyer;
 var checkoutDetails = require('../constants/constants.json').checkoutDetails;
 var createPaymentReqBody =require('../constants/constants.json').createPaymentReqBody;
-var request = require("request");
+var items = require('../constants/constants.json').items;
+var request = require('request');
+var util = require('util');
 checkoutHelper.getBuyerInfo = function getBuyerInfo(){
     return buyer;
 };
 
 
 checkoutHelper.createPayments = function createPayments(req, res){
+
     getAccessToken(function(err, accessTokenRes, accessTokenbody){
-        console.log(err);
         if(err){
             res.render('error', {'message':'error occurred during create payments : getAccessToken', 'error':err});
             return;
         }
+        console.log('starting create Payments call...');
         var accessToken = JSON.parse(accessTokenbody).access_token;
         var reqBody = createPaymentReqBody;
         var data = req.body;
@@ -32,8 +35,8 @@ checkoutHelper.createPayments = function createPayments(req, res){
         reqBody.transactions[0].item_list.shipping_address.phone= data.phone;
         reqBody.transactions[0].item_list.shipping_address.state= data.state;
         reqBody.transactions[0].invoice_number += Math.floor(Math.random()*90000) + 10000;
-        reqBody.redirect_urls.cancel_url = req.headers.host+'/userInfo';
-        reqBody.redirect_urls.return_url = req.headers.host+'/';
+        reqBody.redirect_urls.cancel_url = req.protocol + '://' + req.headers.host+'/userInfo';
+        reqBody.redirect_urls.return_url = req.protocol + '://' + req.headers.host+'/';
         var options = {
             method: 'POST',
             url: checkoutDetails.createPaymentUrl,
@@ -47,15 +50,17 @@ checkoutHelper.createPayments = function createPayments(req, res){
             json:true
 
         }
-        console.log(reqBody);
+        console.log('Printing request for create payment');
+        console.log(util.inspect(options, false, null));
         request(options, function (error, response, body) {
             if (err) {
                 console.log('Error when calling create payment');
                 res.render('error', {'message':'Error when calling create payment', 'error':err});
                 return;
             }
-                //console.log(body);
-                res.send(body);
+            console.log('Printing response for create payment');
+            console.log(util.inspect(body, false, null));
+            res.send(body);
         });
     });
 };
@@ -66,6 +71,7 @@ checkoutHelper.executePayments = function executePayments(req, res){
             res.render('error', {'message':'error occurred during executePayments : getAccessToken', 'error':err});
             return;
         }
+        console.log('starting Execute Payments call...');
         var accessToken = JSON.parse(accessTokenbody).access_token;
         var prevReq = req.res.req;
         var payerId = prevReq.body.payerID;
@@ -82,28 +88,31 @@ checkoutHelper.executePayments = function executePayments(req, res){
             json:true
 
         }
-
+        console.log('Printing request for Execute Payments');
+        console.log(util.inspect(options, false, null));
         request.post(options, function (error, response, body) {
             if (err) {
                 console.log('Error when calling execute payment');
                 res.render('error', {'message':'Error when calling execute payment', 'error':err});
                 return;
             }
-            console.log(body);
+            console.log('Printing response for  Execute Payments');
+            console.log(util.inspect(body, false, null));
             res.send(body);
         });
     });
 };
 
+checkoutHelper.getItemsInfo = function getItems(req, res){
+    console.log('starting get items info...');
+    res.render('index', {'items':items});
+};
 
 function getAccessToken(callback){
 
-    console.log('get access token start');
+    console.log('get access token starting .....');
     var token  = checkoutDetails.clientId+":"+checkoutDetails.secretPhrase,
         encodedKey = new Buffer(token).toString('base64');
-    console.log(encodedKey);
-      //var  payload = "grant_type=client_credentials&Content-Type=application%2Fx-www-form-urlencoded&response_type=token&return_authn_schemes=true";
-    var  payload = "grant_type=client_credentials&Content-Type=application%2Fx-www-form-urlencoded";
 
     var options = {
         url: checkoutDetails.getAccessTokenUrl,
@@ -114,16 +123,17 @@ function getAccessToken(callback){
         },
         body:"grant_type=client_credentials"
     }
-    //console.log(options);
+    console.log('Printing request for get Access token');
+    console.log(util.inspect(options, false, null));
     request.post(options, function (error, response, body) {
-        console.log(error);
         if (error) {
             console.log('error occurred during get access token');
             callback(error);
+            return;
         }
-        else{
-            callback('',response,body);
-        }
+        console.log('Printing response for  get Access token');
+        console.log(util.inspect(body, false, null));
+        callback('',response,body);
     });
 }
 module.exports = checkoutHelper;

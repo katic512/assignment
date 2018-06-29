@@ -32,6 +32,7 @@
 
         </table>
         <div id="paypal-button"></div>
+        <a href="/">Home page</a>
     </div>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script>

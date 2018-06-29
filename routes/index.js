@@ -3,7 +3,7 @@ var router = express.Router();
 var checkoutHelper = require('../helper/checkoutHelper');
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Karthick\'s Express',page:' Products ' });
+    checkoutHelper.getItemsInfo(req, res);
 });
 
 router.get('/userInfo', function(req, res, next) {
@@ -13,15 +13,20 @@ router.get('/userInfo', function(req, res, next) {
     res.render('buyer_info', model);
 });
 
+router.post('/userInfo', function(req, res, next) {
+    var model = {};
+    model.buyer = checkoutHelper.getBuyerInfo();
+    model.page = '- Buyer info';
+    res.render('buyer_info', model);
+});
+
 router.post('/createPayments', function(req, res, next) {
     var data = req.body;
-    //console.log(data);
     checkoutHelper.createPayments(req, res);
 });
 
 router.post('/executePayments', function(req, res, next) {
     var data = req.body;
-    //console.log(data);
     checkoutHelper.executePayments(req, res);
 });
 
